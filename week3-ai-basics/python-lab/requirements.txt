@@ -1,0 +1,3 @@
+# 第 3 周实验依赖（只有一个，保持极简）
+# 安装：python -m pip install -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple/
+requests>=2.31.0
