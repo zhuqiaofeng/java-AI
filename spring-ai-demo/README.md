@@ -76,3 +76,21 @@ com.ai
 | `Could not resolve dependencies ... spring-ai-openai-spring-boot-starter` | 照抄了 Spring AI 1.x 的坐标 | 2.x 用 `spring-ai-starter-model-openai` |
 | 流式接口一次性吐出全部内容 | 中间有代理/Nginx 缓冲 | 本地直连一般没问题；上线要加 `proxy_buffering off` |
 | 中文乱码 | 终端编码不是 UTF-8 | `chcp 65001`，或直接用浏览器演示页 |
+
+## 用 IDEA 启动（Community 2024.1 实测）
+
+1. **打开项目**：`File → Open` → 选 `D:\WorkspacesIDEA\Java-AI\spring-ai-demo`（有 pom.xml 的那层，不要选外层 `Java-AI`），弹 Trust Project 选 Trust。
+2. **等 Maven 导入**：右下角进度条走完；右侧没有 Maven 面板就点 `View → Tool Windows → Maven`。
+3. **指定 Maven**：`Settings → Build, Execution, Deployment → Build Tools → Maven`
+   - Maven home path：`D:\Tools\apache-maven-3.9.16`
+   - User settings file：`C:\Users\12259\.m2\settings.xml`（里面配了阿里云镜像和 `D:\MavenRepository`）
+4. **指定 JDK**：`File → Project Structure`（`Ctrl+Alt+Shift+S`）→ Project → SDK 选 21（`D:\Java\jdk-21.0.13.9-hotspot`），Language level 21。
+5. **建运行配置**：`Run → Edit Configurations → + → Application`
+   - Main class：`com.ai.AiApplication`
+   - Use classpath of module：`spring-ai-demo`
+   - **Environment variables**：`DASHSCOPE_API_KEY=sk-你的Key`（只存在本地 run 配置里，`.idea/` 已被 gitignore）
+6. 点绿色三角启动，看到 `Started AiApplication` 后打开 <http://localhost:8080/>。
+
+> Community 版没有 Spring 专属面板，用 Application 配置即可；改完 pom 记得按 `Ctrl+Shift+O`（或 Maven 面板的刷新）重新导入。
+
+> 不想在 IDE 里贴 Key？就继续用 `run.cmd` 启动，或把 `DASHSCOPE_API_KEY` 设为系统环境变量（`setx DASHSCOPE_API_KEY "sk-..."`，需重启 IDEA 生效）。
